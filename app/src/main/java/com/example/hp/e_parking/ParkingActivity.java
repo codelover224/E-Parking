@@ -1,17 +1,23 @@
 package com.example.hp.e_parking;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.example.hp.e_parking.models.Parking;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,16 +41,34 @@ public class ParkingActivity extends AppCompatActivity {
     Date todayMonth = new Date();
     String thisDate = currentMonth.format(todayMonth);
 
-    String name, vehicle,email;
+    String name, vehicle, email;
     int lastSpot = 0;
     int lastUnparkedSpot = 0;
 
     private DatabaseReference mFirebaseParkingDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
+    private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    startActivity(new Intent(ParkingActivity.this, LoginActivity2.class));
+                    finish();
+                } else {
+                    Toast.makeText(ParkingActivity.this, "User not null!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
         setContentView(R.layout.activity_main);
         gridLayout = (GridLayout) findViewById(R.id.Gridlayout);
 
@@ -76,12 +100,12 @@ public class ParkingActivity extends AppCompatActivity {
     }
 
     private void procressAllParkings(Map<String, Object> value) {
-        if (value!=null){
+        if (value != null) {
             for (String key : value.keySet()) {
                 try {
                     Parking parking = new Gson().fromJson(new Gson().toJson(value.get(key)), Parking.class);
                     if (parking != null) {
-                        View button = gridLayout.getChildAt(parking.getPosition()-1);
+                        View button = gridLayout.getChildAt(parking.getPosition() - 1);
                         if (button != null) {
                             if (parking.isParked) {
                                 button.setBackgroundColor(Color.RED);
@@ -98,12 +122,37 @@ public class ParkingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                logout();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        Toast.makeText(this, "Logout clicked ...", Toast.LENGTH_SHORT).show();
+
+
+        auth.signOut();
+
+
+    }
+
     private void loadLastPosition() {
 
 //        // store app title to 'app_title' node
 //        mFirebaseInstance.getReference("lastSpot").setValue(lastSpot);
-
-
 
 
         // app_title change listener
@@ -165,7 +214,7 @@ public class ParkingActivity extends AppCompatActivity {
         if (parking != null) {
             if (parking.isParked) {
 
-                if (parking.getEmail().toLowerCase().trim().equals(email.trim().trim())){
+                if (parking.getEmail().toLowerCase().trim().equals(email.trim().trim())) {
                     message = parking.getMessage();
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setCancelable(false);
@@ -191,8 +240,8 @@ public class ParkingActivity extends AppCompatActivity {
                                 }
                             });
                     builder.create().show();
-                }else{
-                    Toast.makeText(ParkingActivity.this,getDate(parking.startTime, "dd/MM/yyyy hh:mm:ss.SSS")+ " =>Not your parking",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ParkingActivity.this, getDate(parking.startTime, "dd/MM/yyyy hh:mm:ss.SSS") + " =>Not your parking", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -237,7 +286,7 @@ public class ParkingActivity extends AppCompatActivity {
     }
 
     private void updateParkingSpotonServer(int position, String message, boolean isParked) {
-        mFirebaseParkingDatabase.child("POS_" + position).setValue(new Parking(position, message, isParked,email,System.currentTimeMillis()));
+        mFirebaseParkingDatabase.child("POS_" + position).setValue(new Parking(position, message, isParked, email, System.currentTimeMillis()));
         getAllParkingObjects();
     }
 
@@ -281,8 +330,8 @@ public class ParkingActivity extends AppCompatActivity {
         }
 
     }
-    public static String getDate(long milliSeconds, String dateFormat)
-    {
+
+    public static String getDate(long milliSeconds, String dateFormat) {
         // Create a DateFormatter object for displaying date in specified format.
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
 
@@ -290,5 +339,19 @@ public class ParkingActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
     }
 }
