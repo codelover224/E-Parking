@@ -64,7 +64,7 @@ public class ParkingActivity extends AppCompatActivity {
                     startActivity(new Intent(ParkingActivity.this, LoginActivity2.class));
                     finish();
                 } else {
-                    Toast.makeText(ParkingActivity.this, "User not null!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ParkingActivity.this, "User not null!!", Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -141,7 +141,7 @@ public class ParkingActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        Toast.makeText(this, "Logout clicked ...", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Logout clicked ...", Toast.LENGTH_SHORT).show();
 
 
         auth.signOut();
