@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -54,6 +55,8 @@ public class Home extends FragmentActivity implements OnCompleteListener<Void> {
 
 
     private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
+    private FirebaseAuth auth;
+
 
 
     @Override
@@ -88,7 +91,7 @@ public class Home extends FragmentActivity implements OnCompleteListener<Void> {
             finish();
         }
         else{
-            Intent i =new Intent(this,LoginActivity2.class);
+            Intent i =new Intent(this,LoginActivity.class);
             startActivity(i);
             finish();
         }
