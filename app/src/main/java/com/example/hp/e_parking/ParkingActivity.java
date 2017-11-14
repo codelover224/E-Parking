@@ -211,8 +211,8 @@ public class ParkingActivity extends AppCompatActivity {
     private void handleParking(final Parking parking, final Button btn, final int position) {
         String message = null;
 
-        if (parking != null) {
-            if (parking.isParked) {
+        if (parking != null&&parking.isParked) {
+
 
                 if (parking.getEmail().toLowerCase().trim().equals(email.trim().trim())) {
                     message = parking.getMessage();
@@ -244,7 +244,7 @@ public class ParkingActivity extends AppCompatActivity {
                     Toast.makeText(ParkingActivity.this, getDate(parking.startTime, "dd/MM/yyyy hh:mm:ss.SSS") + " =>Not your parking", Toast.LENGTH_SHORT).show();
                 }
 
-            }
+
         } else {
 
             final StringBuilder result = new StringBuilder();
