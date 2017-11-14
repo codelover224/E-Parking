@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#B7004AFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:fontFamily="serif-monospace"/>
+
+    <EditText
+        android:id="@+id/eText_name"
+        android:layout_width="250sp"
+        android:layout_height="50sp"
+        android:background="#FFF"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vehicle No"
+        android:fontFamily="serif-monospace"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/eText_vehicleNo"
+        android:layout_width="250sp"
+        android:layout_height="50sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="#FFF"
+        android:layout_marginTop="5dp"
+        android:fontFamily="serif-monospace"
+        android:hint="CG 07 AF 7990"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:fontFamily="serif-monospace"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="250sp"
+        android:layout_height="50sp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:hint="example@xyz.com"
+        android:background="#FFF"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        android:fontFamily="serif"/>
+
+    <Button
+        android:id="@+id/sign_up_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="SIGN UP"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:background="#FF0000"
+        android:onClick="btnClick1"
+        android:padding="1dp"/>
+
+</LinearLayout>

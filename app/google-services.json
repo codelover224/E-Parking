@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "449484696673",
+    "firebase_url": "https://e-parking-d8b5b.firebaseio.com",
+    "project_id": "e-parking-d8b5b",
+    "storage_bucket": "e-parking-d8b5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449484696673:android:12704ea236c0bb89",
+        "android_client_info": {
+          "package_name": "com.example.hp.e_parking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449484696673-o83jag10im9hjlsv6e3t5ndlrpm39g32.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hp.e_parking",
+            "certificate_hash": "dc686d14dbdf374a4c317af8f33ef8ba119406ee"
+          }
+        },
+        {
+          "client_id": "449484696673-83kdvrhko63hr33g54f8ngd2k9cpav6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQasaZQE7-xOMcmYV_VMgUnY6NwYcRec0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449484696673-83kdvrhko63hr33g54f8ngd2k9cpav6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
