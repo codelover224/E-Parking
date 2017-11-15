@@ -48,7 +48,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".Home" />
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".ResetPasswordActivity" />
     </application>
 
 </manifest>
