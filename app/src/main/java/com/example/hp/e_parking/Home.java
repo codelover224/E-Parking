@@ -64,8 +64,8 @@ public class Home extends FragmentActivity implements OnCompleteListener<Void> {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_home);
         try {
-            Vault.putSharedPreferencesString(this, "lat", String.valueOf(21.175984));
-            Vault.putSharedPreferencesString(this, "lng", String.valueOf(79.061007));
+            Vault.putSharedPreferencesString(this, "lat", String.valueOf(21.176971));
+            Vault.putSharedPreferencesString(this, "lng", String.valueOf(79.062075));
         } catch (Exception e) {
             e.printStackTrace();
         }
