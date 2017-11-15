@@ -51,6 +51,8 @@ public class ParkingActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
+    boolean isAlreadyParked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -230,6 +232,8 @@ public class ParkingActivity extends AppCompatActivity {
                             Vault.putSharedPreferencesString(ParkingActivity.this, "vehicleNo", null);
                             Vault.putSharedPreferencesString(ParkingActivity.this, "email", null);
                             updateParkingSpotonServer(parking.position, null, false);
+                            Vault.putSharedPreferencesBoolean(ParkingActivity.this,"isAlreadyParked",false);
+
 
                         }
                     })
@@ -247,40 +251,46 @@ public class ParkingActivity extends AppCompatActivity {
 
         } else {
 
-            final StringBuilder result = new StringBuilder();
-            String tittle = null;
-            final int token = random.nextInt(900000) + 123456;
+            if (!Vault.getSharedPreferencesBoolean(this,"isAlreadyParked",false)){
+                final StringBuilder result = new StringBuilder();
+                String tittle = null;
+                final int token = random.nextInt(900000) + 123456;
 
-            tittle = "Do you want to park here?";
-            result.append("\nToken no: #" + String.valueOf(token));
-            result.append("\nName: " + name);
-            result.append("\nVehicle no: " + vehicle);
-            result.append("\nBlock no: " + btn.getText());
-            result.append("\nDATE: " + thisDate);
+                tittle = "Do you want to park here?";
+                result.append("\nToken no: #" + String.valueOf(token));
+                result.append("\nName: " + name);
+                result.append("\nVehicle no: " + vehicle);
+                result.append("\nBlock no: " + btn.getText());
+                result.append("\nDATE: " + thisDate);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(false);
-            builder.setTitle(tittle);
-            builder.setMessage(result.toString());
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle(tittle);
+                builder.setMessage(result.toString());
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
 
-                    btn.setBackgroundColor(Color.RED);
+                        btn.setBackgroundColor(Color.RED);
 
-                    mFirebaseInstance.getReference("lastSpot").setValue(21);
-                    Toast.makeText(getApplicationContext(), "Successfully Parked", Toast.LENGTH_LONG).show();
-                    updateParkingSpotonServer(position, result.toString(), true);
+                        mFirebaseInstance.getReference("lastSpot").setValue(21);
+                        Toast.makeText(getApplicationContext(), "Successfully Parked", Toast.LENGTH_LONG).show();
+                        updateParkingSpotonServer(position, result.toString(), true);
+                        Vault.putSharedPreferencesBoolean(ParkingActivity.this,"isAlreadyParked",true);
 
-                }
-            })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //btn.setBackgroundColor(Color.GREEN);
-                            Toast.makeText(getApplicationContext(), "Try again", Toast.LENGTH_LONG).show();
-                        }
-                    });
-            builder.create().show();
+                    }
+                })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //btn.setBackgroundColor(Color.GREEN);
+                                Toast.makeText(getApplicationContext(), "Try again", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                builder.create().show();
+            }else{
+                Toast.makeText(this, "Only one parking is allowed!", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
     }
