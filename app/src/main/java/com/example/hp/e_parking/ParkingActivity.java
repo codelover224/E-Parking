@@ -72,7 +72,7 @@ public class ParkingActivity extends AppCompatActivity {
         };
 
         setContentView(R.layout.activity_main);
-        gridLayout = (GridLayout) findViewById(R.id.Gridlayout);
+        gridLayout = findViewById(R.id.Gridlayout);
 
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -109,9 +109,12 @@ public class ParkingActivity extends AppCompatActivity {
                     if (parking != null) {
                         View button = gridLayout.getChildAt(parking.getPosition() - 1);
                         if (button != null) {
-                            if (parking.isParked) {
+
+                            if (parking.isParked&&parking.getEmail().equals(email)) {
+                                button.setBackgroundColor(Color.BLUE);
+                            } else if (parking.isParked){
                                 button.setBackgroundColor(Color.RED);
-                            } else {
+                            }else {
                                 button.setBackgroundColor(Color.GREEN);
                             }
                         }
