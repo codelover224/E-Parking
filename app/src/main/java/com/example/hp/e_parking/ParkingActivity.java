@@ -110,11 +110,11 @@ public class ParkingActivity extends AppCompatActivity {
                         View button = gridLayout.getChildAt(parking.getPosition() - 1);
                         if (button != null) {
 
-                            if (parking.isParked&&parking.getEmail().equals(email)) {
+                            if (parking.isParked && parking.getEmail().equals(email)) {
                                 button.setBackgroundColor(Color.BLUE);
-                            } else if (parking.isParked){
+                            } else if (parking.isParked) {
                                 button.setBackgroundColor(Color.RED);
-                            }else {
+                            } else {
                                 button.setBackgroundColor(Color.GREEN);
                             }
                         }
@@ -216,45 +216,57 @@ public class ParkingActivity extends AppCompatActivity {
     private void handleParking(final Parking parking, final Button btn, final int position) {
         String message = null;
 
-        if (parking != null&&parking.isParked) {
+        if (parking != null && parking.isParked) {
 
 
-                if (parking.getEmail().toLowerCase().trim().equals(email.trim().trim())) {
-                    message = parking.getMessage();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setCancelable(false);
-                    builder.setTitle("Do you want to unpark?");
-                    builder.setMessage(message);
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
+            if (parking.getEmail().toLowerCase().trim().equals(email.trim().trim())) {
+                message = parking.getMessage();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle("Do you want to unpark?");
+                builder.setMessage(message);
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
 
-                            btn.setBackgroundColor(Color.GREEN);
-                            Toast.makeText(getApplicationContext(), "Successfully UnParked", Toast.LENGTH_LONG).show();
-                            Vault.putSharedPreferencesString(ParkingActivity.this, "name", null);
-                            Vault.putSharedPreferencesString(ParkingActivity.this, "vehicleNo", null);
-                            Vault.putSharedPreferencesString(ParkingActivity.this, "email", null);
-                            updateParkingSpotonServer(parking.position, null, false);
-                            Vault.putSharedPreferencesBoolean(ParkingActivity.this,"isAlreadyParked",false);
+                        btn.setBackgroundColor(Color.GREEN);
+                        Toast.makeText(getApplicationContext(), "Successfully UnParked", Toast.LENGTH_LONG).show();
+                        Vault.putSharedPreferencesString(ParkingActivity.this, "name", null);
+                        Vault.putSharedPreferencesString(ParkingActivity.this, "vehicleNo", null);
+                        Vault.putSharedPreferencesString(ParkingActivity.this, "email", null);
+                        updateParkingSpotonServer(parking.position, null, false);
+                        Vault.putSharedPreferencesBoolean(ParkingActivity.this, "isAlreadyParked", false);
 
 
-                        }
-                    })
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //btn.setBackgroundColor(Color.GREEN);
-                                    Toast.makeText(getApplicationContext(), "Try again", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                    builder.create().show();
-                } else {
-                    Toast.makeText(ParkingActivity.this, getDate(parking.startTime, "dd/MM/yyyy hh:mm:ss.SSS") + " =>Not your parking", Toast.LENGTH_SHORT).show();
-                }
+                    }
+                })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //btn.setBackgroundColor(Color.GREEN);
+                                Toast.makeText(getApplicationContext(), "Try again", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                builder.create().show();
+            } else {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle("Was parked by " + parking.getEmail());
+                builder.setMessage("Date of parking:- " + getDate(parking.startTime, "dd/MM/yyyy") +
+                        "\nTime:- " + getDate(parking.startTime, "hh:mm"));
+                builder.setPositiveButton("OK!!!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.create().show();
+                //Toast.makeText(ParkingActivity.this, getDate(parking.startTime, "dd/MM/yyyy hh:mm:ss.SSS") + " =>Not your parking", Toast.LENGTH_SHORT).show();
+            }
 
 
         } else {
 
-            if (!Vault.getSharedPreferencesBoolean(this,"isAlreadyParked",false)){
+            if (!Vault.getSharedPreferencesBoolean(this, "isAlreadyParked", false)) {
                 final StringBuilder result = new StringBuilder();
                 String tittle = null;
                 final int token = random.nextInt(900000) + 123456;
@@ -279,7 +291,7 @@ public class ParkingActivity extends AppCompatActivity {
                         mFirebaseInstance.getReference("lastSpot").setValue(21);
                         Toast.makeText(getApplicationContext(), "Successfully Parked", Toast.LENGTH_LONG).show();
                         updateParkingSpotonServer(position, result.toString(), true);
-                        Vault.putSharedPreferencesBoolean(ParkingActivity.this,"isAlreadyParked",true);
+                        Vault.putSharedPreferencesBoolean(ParkingActivity.this, "isAlreadyParked", true);
 
                     }
                 })
@@ -290,7 +302,7 @@ public class ParkingActivity extends AppCompatActivity {
                             }
                         });
                 builder.create().show();
-            }else{
+            } else {
                 Toast.makeText(this, "Only one parking is allowed!", Toast.LENGTH_SHORT).show();
             }
 
@@ -366,5 +378,9 @@ public class ParkingActivity extends AppCompatActivity {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    public void popup(final Parking parking) {
+
     }
 }

@@ -56,8 +56,6 @@ public class Vault {
     }
 
 
-
-
     public static double getSharedPreferencesDouble(Context context, String key,
                                                     double _default) {
 
@@ -65,7 +63,6 @@ public class Vault {
                 .getDefaultSharedPreferences(context);
         return Double.longBitsToDouble(preferences.getLong(key, Double.doubleToLongBits(_default)));
     }
-
 
 
     public static void putSharedPreferencesLong(Context context, String key,
