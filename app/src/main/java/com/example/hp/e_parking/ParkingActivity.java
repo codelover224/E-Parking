@@ -250,7 +250,7 @@ public class ParkingActivity extends AppCompatActivity {
             } else {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setCancelable(false);
-                builder.setTitle("Was parked by " + parking.getEmail());
+                builder.setTitle("Was parked by " + parking.getName());
                 builder.setMessage("Date of parking:- " + getDate(parking.startTime, "dd/MM/yyyy") +
                         "\nTime:- " + getDate(parking.startTime, "hh:mm"));
                 builder.setPositiveButton("OK!!!", new DialogInterface.OnClickListener() {
@@ -311,7 +311,7 @@ public class ParkingActivity extends AppCompatActivity {
     }
 
     private void updateParkingSpotonServer(int position, String message, boolean isParked) {
-        mFirebaseParkingDatabase.child("POS_" + position).setValue(new Parking(position, message, isParked, email, System.currentTimeMillis()));
+        mFirebaseParkingDatabase.child("POS_" + position).setValue(new Parking(position, message, isParked, email, System.currentTimeMillis(),name));
         getAllParkingObjects();
     }
 

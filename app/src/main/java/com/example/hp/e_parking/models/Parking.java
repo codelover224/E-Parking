@@ -8,24 +8,26 @@ package com.example.hp.e_parking.models;
 public class Parking {
 
     public int position;
-    public String  message;
+    public String message;
     public boolean isParked;
     public String email;
     public long startTime;
+    public String name;
 
     public Parking() {
     }
 
-    public Parking(int position, String message, boolean isParked, String email,long startTime) {
+    public Parking(int position, String message, boolean isParked, String email, long startTime, String name) {
         this.position = position;
         this.message = message;
         this.isParked = isParked;
         this.email = email;
-        this.startTime=startTime;
+        this.startTime = startTime;
+        this.name = name;
     }
 
     public String getEmail() {
-        return email!=null?email:"";
+        return email != null ? email : "";
     }
 
     public void setEmail(String email) {
@@ -50,6 +52,14 @@ public class Parking {
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getStartTime() {
